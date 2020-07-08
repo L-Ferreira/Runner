@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\JewelGenerator.cs" />
+     <Compile Include="Assets\Scripts\MainMenu.cs" />
      <Compile Include="Assets\Scripts\ObjectPooler.cs" />
      <Compile Include="Assets\Scripts\PlatformDestroyer.cs" />
      <Compile Include="Assets\Scripts\PlatformGenerator.cs" />
