@@ -25,6 +25,9 @@ public class PlatformGenerator : MonoBehaviour {
     public float maxHeightChange;
     private float heightChange;
 
+    private JewelGenerator theJewelGenerator;
+    public float randomJewelThreshold;
+
     void Start () {
         // platformWidth = thePlatform.GetComponent<BoxCollider2D> ().size.x;
         platformWidths = new float[theObjectPools.Length];
@@ -35,6 +38,8 @@ public class PlatformGenerator : MonoBehaviour {
 
         minHeight = transform.position.y;
         maxHeight = maxHeightPoint.position.y;
+
+        theJewelGenerator = FindObjectOfType<JewelGenerator> ();
 
     }
 
@@ -60,6 +65,11 @@ public class PlatformGenerator : MonoBehaviour {
             newPlatform.transform.position = transform.position;
             newPlatform.transform.rotation = transform.rotation;
             newPlatform.SetActive (true);
+
+            if (Random.Range (0f, 100f) < randomJewelThreshold) {
+                theJewelGenerator.SpawnJewels (new Vector3 (transform.position.x, transform.position.y + 1f, transform.position.z));
+
+            }
 
             transform.position = new Vector3 ((transform.position.x + platformWidths[platformSelector] / 2), transform.position.y, transform.position.z);
 
