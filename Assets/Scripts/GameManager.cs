@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
 
     private ScoreManager theScoreManager;
 
-    private
+    public DeathMenu theDeathScreen;
 
     void Start () {
         platformStartPoint = platformGenerator.position;
@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour {
 
         theScoreManager = FindObjectOfType<ScoreManager> ();
         theScoreManager.scoreIncreasing = true;
-
     }
 
     void Update () {
@@ -30,14 +29,18 @@ public class GameManager : MonoBehaviour {
     }
 
     public void RestartGame () {
-        StartCoroutine ("RestartGameCo");
+
+        theScoreManager.scoreIncreasing = false;
+        thePlayer.gameObject.SetActive (false);
+
+        //StartCoroutine ("RestartGameCo");
+        theDeathScreen.gameObject.SetActive (true);
     }
 
-    public IEnumerator RestartGameCo () {
-        theScoreManager.scoreIncreasing = false;
+    public void Reset () {
 
-        thePlayer.gameObject.SetActive (false);
-        yield return new WaitForSeconds (0.5f);
+        theDeathScreen.gameObject.SetActive (false);
+
         platformList = FindObjectsOfType<PlatformDestroyer> ();
         for (int i = 0; i < platformList.Length; i++) {
             platformList[i].gameObject.SetActive (false);
@@ -51,4 +54,10 @@ public class GameManager : MonoBehaviour {
         theScoreManager.scoreIncreasing = true;
 
     }
+
+    // public IEnumerator RestartGameCo () {
+
+    //     yield return new WaitForSeconds (0.5f);
+
+    // }
 }
