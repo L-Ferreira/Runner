@@ -8,9 +8,11 @@ public class ScoreManager : MonoBehaviour {
 
     public Text scoreText;
     public Text highScoreText;
+    public Text jewelText;
 
     public float scoreCount;
     public float highScoreCount;
+    public int jewelCount;
 
     public float pointsPerSecond;
 
@@ -35,10 +37,13 @@ public class ScoreManager : MonoBehaviour {
 
         scoreText.text = "Score: " + Mathf.Round (scoreCount);
         highScoreText.text = "High Score: " + Mathf.Round (highScoreCount);
+        jewelText.text = "" + jewelCount;
 
     }
 
     public void AddScore (int pointsToAdd) {
         scoreCount += pointsToAdd;
+        jewelCount++;
+
     }
 }

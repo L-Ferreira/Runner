@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     private ScoreManager theScoreManager;
 
     public DeathMenu theDeathScreen;
+    public GameObject pauseButton;
 
     void Start () {
         platformStartPoint = platformGenerator.position;
@@ -35,11 +36,13 @@ public class GameManager : MonoBehaviour {
 
         //StartCoroutine ("RestartGameCo");
         theDeathScreen.gameObject.SetActive (true);
+        pauseButton.gameObject.SetActive (false);
     }
 
     public void Reset () {
 
         theDeathScreen.gameObject.SetActive (false);
+        pauseButton.gameObject.SetActive (true);
 
         platformList = FindObjectsOfType<PlatformDestroyer> ();
         for (int i = 0; i < platformList.Length; i++) {
@@ -51,6 +54,7 @@ public class GameManager : MonoBehaviour {
         thePlayer.gameObject.SetActive (true);
 
         theScoreManager.scoreCount = 0;
+        theScoreManager.jewelCount = 0;
         theScoreManager.scoreIncreasing = true;
 
     }

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour {
 
@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour {
 
     public GameManager theGameManager;
 
+    public AudioSource jumpSound;
+    public AudioSource deathSound;
+
     void Start () {
         myRigidBody = GetComponent<Rigidbody2D> ();
         //myCollider = GetComponent<Collider2D> ();
@@ -64,9 +67,15 @@ public class PlayerController : MonoBehaviour {
         myRigidBody.velocity = new Vector2 (moveSpeed, myRigidBody.velocity.y);
 
         if (Input.GetKeyDown (KeyCode.Space) || Input.GetMouseButtonDown (0)) {
+            if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) {
+                if (EventSystem.current.IsPointerOverGameObject (Input.touches[0].fingerId))
+                    return;
+            }
+
             if (grounded) {
                 myRigidBody.velocity = new Vector2 (myRigidBody.velocity.x, jumpForce);
                 stoppedJumping = false;
+                jumpSound.Play ();
             }
 
             if (!grounded && canDoubleJump) {
@@ -74,6 +83,8 @@ public class PlayerController : MonoBehaviour {
                 jumpTimeCounter = jumpTime;
                 stoppedJumping = false;
                 canDoubleJump = false;
+                jumpSound.Play ();
+
             }
         }
 
@@ -105,6 +116,14 @@ public class PlayerController : MonoBehaviour {
             moveSpeed = moveSpeedStore;
             speedMilestoneCount = speedMilestoneCountStore;
             speedIncreaseMilestone = speedIncreaseMilestoneStore;
+            deathSound.Play ();
+
         }
+    }
+
+    public void RestartPlayer () {
+        moveSpeed = moveSpeedStore;
+        speedMilestoneCount = speedMilestoneCountStore;
+        speedIncreaseMilestone = speedIncreaseMilestoneStore;
     }
 }

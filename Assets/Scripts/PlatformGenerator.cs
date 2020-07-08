@@ -28,6 +28,9 @@ public class PlatformGenerator : MonoBehaviour {
     private JewelGenerator theJewelGenerator;
     public float randomJewelThreshold;
 
+    public ObjectPooler spikePool;
+    public float randomSpikeThreshold;
+
     void Start () {
         // platformWidth = thePlatform.GetComponent<BoxCollider2D> ().size.x;
         platformWidths = new float[theObjectPools.Length];
@@ -68,6 +71,19 @@ public class PlatformGenerator : MonoBehaviour {
 
             if (Random.Range (0f, 100f) < randomJewelThreshold) {
                 theJewelGenerator.SpawnJewels (new Vector3 (transform.position.x, transform.position.y + 1f, transform.position.z));
+
+            }
+
+            if (Random.Range (0f, 100f) < randomSpikeThreshold) {
+                GameObject newSpike = spikePool.GetPooledObject ();
+
+                float spikeXPosition = Random.Range (-platformWidths[platformSelector] / 2f + 1f, platformWidths[platformSelector] / 2f - 1f);
+
+                Vector3 spikePosition = new Vector3 (spikeXPosition, 0.78f, 0f);
+
+                newSpike.transform.position = transform.position + spikePosition;
+                newSpike.transform.rotation = transform.rotation;
+                newSpike.SetActive (true);
 
             }
 
