@@ -75,7 +75,6 @@ public class LifeSystem : MonoBehaviour
             flashCounter = flashLength;
 
             int index = Mathf.CeilToInt(life - 1 < 0 ? 0 : life - 1);
-            print(life + " - " + index);
 
             hearts[index].gameObject.SetActive(false);
 
