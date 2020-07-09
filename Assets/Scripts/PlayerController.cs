@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -39,10 +40,13 @@ public class PlayerController : MonoBehaviour {
     public AudioSource jumpSound;
     public AudioSource deathSound;
 
+    public LifeSystem theLifeSystem;
+
     void Start () {
         myRigidBody = GetComponent<Rigidbody2D> ();
         //myCollider = GetComponent<Collider2D> ();
         myAnimator = GetComponent<Animator> ();
+        theLifeSystem = GetComponent<LifeSystem> ();
         jumpTimeCounter = jumpTime;
         speedMilestoneCount = speedIncreaseMilestone;
 
@@ -112,12 +116,14 @@ public class PlayerController : MonoBehaviour {
 
     void OnCollisionEnter2D (Collision2D other) {
         if (other.gameObject.tag == "killbox") {
-            theGameManager.RestartGame ();
-            moveSpeed = moveSpeedStore;
-            speedMilestoneCount = speedMilestoneCountStore;
-            speedIncreaseMilestone = speedIncreaseMilestoneStore;
-            deathSound.Play ();
+            this.KillPlayer ();
+        }
 
+    }
+
+    void OnTriggerEnter2D (Collider2D other) {
+        if (other.gameObject.tag == "spike") {
+            theLifeSystem.TakeDamage (1);
         }
     }
 
@@ -125,5 +131,13 @@ public class PlayerController : MonoBehaviour {
         moveSpeed = moveSpeedStore;
         speedMilestoneCount = speedMilestoneCountStore;
         speedIncreaseMilestone = speedIncreaseMilestoneStore;
+    }
+
+    public void KillPlayer () {
+        theGameManager.RestartGame ();
+        moveSpeed = moveSpeedStore;
+        speedMilestoneCount = speedMilestoneCountStore;
+        speedIncreaseMilestone = speedIncreaseMilestoneStore;
+        deathSound.Play ();
     }
 }

@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\DeathMenu.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\JewelGenerator.cs" />
+     <Compile Include="Assets\Scripts\LifeSystem.cs" />
      <Compile Include="Assets\Scripts\MainMenu.cs" />
      <Compile Include="Assets\Scripts\ObjectPooler.cs" />
      <Compile Include="Assets\Scripts\PauseMenu.cs" />
@@ -68,6 +69,7 @@
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\ScoreManager.cs" />
      <Compile Include="Assets\Scripts\pickupJewel.cs" />
+     <Compile Include="Assets\Scripts\pickupLife.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/OneDrive - IPLeiria/escola/MEI-CM/2Sem/Jogos/2D_Runner/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

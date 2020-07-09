@@ -1,0 +1,94 @@
+﻿using System.Threading;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LifeSystem : MonoBehaviour
+{
+    public GameObject[] hearts;
+    public int life;
+    public bool dead;
+    private AudioSource damageSound;
+    private PlayerController thePlayerController;
+    private SpriteRenderer playerSprite;
+
+    public bool flashActive;
+    public float flashLength;
+    private float flashCounter;
+
+    private Animator myAnimator;
+
+    private void Start()
+    {
+        myAnimator = GetComponent<Animator>();
+        playerSprite = GetComponent<SpriteRenderer>();
+
+        thePlayerController = FindObjectOfType<PlayerController>();
+        damageSound = GameObject.Find("DamageSound").GetComponent<AudioSource>();
+        life = hearts.Length;
+
+    }
+
+    private void Update()
+    {
+        if (dead == true)
+        {
+            thePlayerController.KillPlayer();
+        }
+
+        if (flashActive)
+        {
+            if (flashCounter > flashLength * .66f)
+            {
+                playerSprite.color = new Color(playerSprite.color.r, playerSprite.color.g, playerSprite.color.b, 0f);
+            }
+            else if (flashCounter > flashLength * .33f)
+            {
+                playerSprite.color = new Color(playerSprite.color.r, playerSprite.color.g, playerSprite.color.b, 1f);
+            }
+            else if (flashCounter > 0f)
+            {
+                playerSprite.color = new Color(playerSprite.color.r, playerSprite.color.g, playerSprite.color.b, 0f);
+            }
+            else
+            {
+                playerSprite.color = new Color(playerSprite.color.r, playerSprite.color.g, playerSprite.color.b, 1f);
+                flashActive = false;
+            }
+            flashCounter -= Time.deltaTime;
+        }
+
+        myAnimator.SetBool("Dead", dead);
+
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (life >= 1)
+        {
+            life -= damage;
+
+            flashActive = true;
+            flashCounter = flashLength;
+
+            hearts[life].gameObject.SetActive(false);
+            //Destroy (hearts[life].gameObject);
+            damageSound.Play();
+            if (life < 1)
+            {
+                dead = true;
+            }
+        }
+    }
+
+    public void AddLife(int lifesToAdd)
+    {
+        if (life < 5)
+        {
+            life += lifesToAdd;
+            hearts[life - 1].gameObject.SetActive(true);
+        }
+
+
+    }
+}
