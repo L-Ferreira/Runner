@@ -6,7 +6,7 @@ using UnityEngine;
 public class LifeSystem : MonoBehaviour
 {
     public GameObject[] hearts;
-    public int life;
+    public float life;
     public bool dead;
     private AudioSource damageSound;
     private PlayerController thePlayerController;
@@ -17,6 +17,9 @@ public class LifeSystem : MonoBehaviour
     private float flashCounter;
 
     private Animator myAnimator;
+
+    [SerializeField]
+    public GameObject heartHalf;
 
     private void Start()
     {
@@ -62,7 +65,7 @@ public class LifeSystem : MonoBehaviour
 
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if (life >= 1)
         {
@@ -71,7 +74,16 @@ public class LifeSystem : MonoBehaviour
             flashActive = true;
             flashCounter = flashLength;
 
-            hearts[life].gameObject.SetActive(false);
+            int index = Mathf.CeilToInt(life - 1 < 0 ? 0 : life - 1);
+            print(life + " - " + index);
+
+            hearts[index].gameObject.SetActive(false);
+
+            if (damage == 0.5f)
+            {
+                hearts.SetValue(heartHalf, index);
+                hearts[index].gameObject.SetActive(true);
+            }
             //Destroy (hearts[life].gameObject);
             damageSound.Play();
             if (life < 1)
@@ -86,7 +98,7 @@ public class LifeSystem : MonoBehaviour
         if (life < 5)
         {
             life += lifesToAdd;
-            hearts[life - 1].gameObject.SetActive(true);
+            hearts[Mathf.CeilToInt(life) - 1].gameObject.SetActive(true);
         }
 
 

@@ -62,4 +62,9 @@ public class ScoreManager : MonoBehaviour
         totalJewelCount++;
 
     }
+
+    public void KillEnemyAddScore(int score)
+    {
+        scoreCount += score;
+    }
 }

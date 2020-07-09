@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
     public Transform platformGenerator;
     private Vector3 platformStartPoint;
 

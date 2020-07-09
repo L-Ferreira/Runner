@@ -125,6 +125,15 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.tag == "spike") {
             theLifeSystem.TakeDamage (1);
         }
+        else if (other.gameObject.tag == "fireball")
+        {
+            theLifeSystem.TakeDamage(0.5f);
+        }
+        else if (other.gameObject.tag == "Enemy")
+        {
+            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            enemy.Dismiss();
+        }
     }
 
     public void RestartPlayer () {
