@@ -30,6 +30,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject fireballPrefab;
 
+    public PlayerController player;
+
     private float shootVelocity = 3f;
 
     private ScoreManager theScoreManager;
@@ -39,10 +41,13 @@ public class Enemy : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         mainCamera = FindObjectOfType<Camera>();
+        player = FindObjectOfType<PlayerController>();
+
     }
 
     private void Start()
     {
+
         int index = SpriteRenderingOrderManager.Instance.GetEnemyOrderInLayer();
         GetComponent<SpriteRenderer>().sortingOrder = index;
     }
@@ -50,15 +55,20 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         myRigidbody.velocity = new Vector2(-speed * transform.right.x, myRigidbody.velocity.y);
-        GameObject player = GameObject.FindGameObjectsWithTag("Player")[0];
 
-        if (myRigidbody.position.y - 0.5 <= player.transform.position.y &&
-            myRigidbody.position.y + 0.5 >= player.transform.position.y &&
-            myRigidbody.position.x - 9 <= player.transform.position.x &&
-            myRigidbody.position.x + 9 >= player.transform.position.x)
+        if (player != null)
         {
-            EnemyShoot();
+            if (myRigidbody.position.y - 0.5 <= player.transform.position.y &&
+                myRigidbody.position.y + 0.5 >= player.transform.position.y &&
+                myRigidbody.position.x - 9 <= player.transform.position.x &&
+                myRigidbody.position.x + 9 >= player.transform.position.x)
+            {
+                EnemyShoot();
+            }
         }
+
+
+
     }
 
     private void FixedUpdate()
@@ -92,14 +102,16 @@ public class Enemy : MonoBehaviour
 
     private void AnimatorEventEnemyShoot()
     {
-        GameObject player = GameObject.FindGameObjectsWithTag("Player")[0];
-        if ((myRigidbody.position.x > player.transform.position.x && transform.rotation.y >= 0)
-            || (myRigidbody.position.x < player.transform.position.x && transform.rotation.y < 0))
+        if (player != null)
         {
-            Flip();
+            if ((myRigidbody.position.x > player.transform.position.x && transform.rotation.y >= 0)
+                || (myRigidbody.position.x < player.transform.position.x && transform.rotation.y < 0))
+            {
+                Flip();
+            }
+            GameObject fireball = Instantiate(fireballPrefab, shootPoint.position, shootPoint.rotation);
+            fireball.GetComponent<Rigidbody2D>().velocity = shootPoint.right * shootVelocity;
         }
-        GameObject fireball = Instantiate(fireballPrefab, shootPoint.position, shootPoint.rotation);
-        fireball.GetComponent<Rigidbody2D>().velocity = shootPoint.right * shootVelocity;
     }
 
     private void EnemyStopShoot()

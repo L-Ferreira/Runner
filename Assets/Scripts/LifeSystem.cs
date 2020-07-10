@@ -18,8 +18,6 @@ public class LifeSystem : MonoBehaviour
 
     private Animator myAnimator;
 
-    [SerializeField]
-    public GameObject heartHalf;
 
     private void Start()
     {
@@ -74,27 +72,28 @@ public class LifeSystem : MonoBehaviour
             flashActive = true;
             flashCounter = flashLength;
 
-            int index = Mathf.CeilToInt(life - 1 < 0 ? 0 : life - 1);
+            //int index = Mathf.CeilToInt(life - 1 < 0 ? 0 : life - 1);
 
-            hearts[index].gameObject.SetActive(false);
+            hearts[(int)life].gameObject.SetActive(false);
 
-            if (damage == 0.5f)
-            {
-                hearts.SetValue(heartHalf, index);
-                hearts[index].gameObject.SetActive(true);
-            }
+            // if (damage == 0.5f)
+            // {
+            //     hearts.SetValue(heartHalf, index);
+            //     hearts[index].gameObject.SetActive(true);
+            // }
             //Destroy (hearts[life].gameObject);
             damageSound.Play();
-            if (life < 1)
-            {
-                dead = true;
-            }
+
+        }
+        if (life < 1)
+        {
+            dead = true;
         }
     }
 
     public void AddLife(int lifesToAdd)
     {
-        if (life < 5)
+        if (life < hearts.Length)
         {
             life += lifesToAdd;
             hearts[Mathf.CeilToInt(life) - 1].gameObject.SetActive(true);

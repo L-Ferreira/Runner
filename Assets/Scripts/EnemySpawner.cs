@@ -20,11 +20,15 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator Spawn()
     {
-        for (int i = 0; i < maximumEnemiesToSpawn; i++)
+        // for (int i = 0; i < maximumEnemiesToSpawn; i++)
+        // {
+        while (true)
         {
             yield return new WaitForSeconds(timeToWaitBeforeSpawn);
             Instantiate(enemyPrefab, transform.position, transform.rotation);
-            EnemyManager.Instance.IncreaseEnemiesCounter();
         }
+
+        //EnemyManager.Instance.IncreaseEnemiesCounter();
+        //}
     }
 }

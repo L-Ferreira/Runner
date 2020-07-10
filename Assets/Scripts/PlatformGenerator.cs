@@ -35,8 +35,19 @@ public class PlatformGenerator : MonoBehaviour
     public float heartHeight;
     public ObjectPooler heartPool;
     public float randomHeartThreshold;
+    private LifeSystem theLifeSystem;
+
+    public float randomEnemySpawnerThreshold;
+
+    [SerializeField]
+    private GameObject enemyPrefab;
 
 
+    void Awake()
+    {
+        theLifeSystem = FindObjectOfType<LifeSystem>();
+
+    }
     void Start()
     {
         // platformWidth = thePlatform.GetComponent<BoxCollider2D> ().size.x;
@@ -73,17 +84,18 @@ public class PlatformGenerator : MonoBehaviour
             {
                 heightChange = minHeight;
             }
-
-            if (Random.Range(0f, 100f) < randomHeartThreshold)
+            if (theLifeSystem.life < theLifeSystem.hearts.Length)
             {
-                GameObject newHeart = heartPool.GetPooledObject();
+                if (Random.Range(0f, 100f) < randomHeartThreshold)
+                {
+                    GameObject newHeart = heartPool.GetPooledObject();
 
-                Vector3 heartPosition = new Vector3(distanceBetween / 2f, heartHeight, 0f);
+                    Vector3 heartPosition = new Vector3(distanceBetween / 2f, heartHeight, 0f);
 
-                newHeart.transform.position = transform.position + heartPosition;
-                newHeart.SetActive(true);
+                    newHeart.transform.position = transform.position + heartPosition;
+                    newHeart.SetActive(true);
+                }
             }
-
 
 
             transform.position = new Vector3((transform.position.x + platformWidths[platformSelector] / 2) + distanceBetween, heightChange, transform.position.z);
@@ -106,11 +118,25 @@ public class PlatformGenerator : MonoBehaviour
 
                 float spikeXPosition = Random.Range(-platformWidths[platformSelector] / 2f + 1f, platformWidths[platformSelector] / 2f - 1f);
 
-                Vector3 spikePosition = new Vector3(spikeXPosition, 0.78f, 0f);
+                Vector3 spikePosition = new Vector3(spikeXPosition, 0.78f, 1f);
 
                 newSpike.transform.position = transform.position + spikePosition;
                 newSpike.transform.rotation = transform.rotation;
                 newSpike.SetActive(true);
+
+            }
+
+            if (Random.Range(0f, 100f) < randomEnemySpawnerThreshold)
+            {
+                GameObject newEnemySpawner = (GameObject)Instantiate(enemyPrefab);
+
+                float enemySpawnerXPosition = Random.Range(-platformWidths[platformSelector] / 2f + 1f, platformWidths[platformSelector] / 2f - 1f);
+
+                Vector3 enemySpawnerPosition = new Vector3(enemySpawnerXPosition, 1.47f, 0f);
+
+                newEnemySpawner.transform.position = transform.position + enemySpawnerPosition;
+                newEnemySpawner.transform.rotation = transform.rotation;
+                newEnemySpawner.SetActive(true);
 
             }
 

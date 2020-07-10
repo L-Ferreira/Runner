@@ -12,6 +12,9 @@ public class MainMenu : MonoBehaviour
     public Text highScoreText;
     public Text jewelText;
 
+    public string tutorialMenu;
+
+
     public float highScoreCount;
     public int totalJewels;
 
@@ -33,6 +36,11 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         Application.LoadLevel(playGameLevel);
+    }
+
+    public void Tutorial()
+    {
+        Application.LoadLevel(tutorialMenu);
     }
 
     public void QuitGame()

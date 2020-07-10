@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8748191078362125805}
   - component: {fileID: 8748191078362125804}
   - component: {fileID: 8748191078362125807}
+  - component: {fileID: 4871310787255112765}
   m_Layer: 8
   m_Name: EnemySpawner
   m_TagString: Enemy
@@ -94,7 +95,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 788ab77933693b5428ccc26c48ba79cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximumEnemiesToSpawn: 3
-  timeToWaitBeforeSpawn: 1
+  maximumEnemiesToSpawn: 2
+  timeToWaitBeforeSpawn: 3.5
   enemyPrefab: {fileID: 8042714744517563824, guid: 4bba315d9c6ad2941a8c8cd22c5fe9f6,
     type: 3}
+--- !u!114 &4871310787255112765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8748191078362125806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 427d757f5312d594eb84e95b96905fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platformDestructionPoint: {fileID: 0}
